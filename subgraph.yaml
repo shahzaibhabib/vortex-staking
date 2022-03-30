@@ -22,3 +22,22 @@ dataSources:
         - event: PortalCreated(indexed address,address)
           handler: handlePortalCreated
       file: ./src/mappings/vortex.ts
+templates:
+  - kind: ethereum/contract
+    name: Portal
+    network: rinkeby
+    source:
+      abi: Portal
+    mapping:
+      kind: ethereum/events
+      apiVersion: 0.0.5
+      language: wasm/assemblyscript
+      file: ./src/mappings/portal.ts
+      entities:
+        - Portal
+      abis:
+        - name: Portal
+          file: ./abis/Portal.json
+      eventHandlers:
+        - event: Deposited(uint256[],uint256,address,address)
+          handler: handleDeposited
