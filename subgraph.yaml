@@ -18,6 +18,8 @@ dataSources:
       abis:
         - name: Vortex
           file: ./abis/Vortex.json
+        - name: Portal
+          file: ./abis/Portal.json
       eventHandlers:
         - event: PortalCreated(indexed address,address)
           handler: handlePortalCreated

@@ -10,4 +10,18 @@ type Portal @entity {
   id: ID!
   # creator's address of the portal
   creator: String!
+  # last block upto which the portal reward gets distributed
+  endBlock: BigInt!
+  # token(s) being rewarded by the portal
+  rewardTokens: [String!]
+  # minimum amount of reward token distributed per block
+  minimumRewardRate: BigInt!
+  # token alloed to stake on this portal
+  stakingToken: String!
+  # staker can not stake more amount of tokens than this limit
+  stakeLimit: BigInt!
+  # total amount of tokens that can be staked on this portal across all stakers
+  contractStakeLimit: BigInt!
+  # minimum amount of tokens needed to be staked in order for the portal to start distributing rewards
+  distributionLimit: BigInt!
 }
