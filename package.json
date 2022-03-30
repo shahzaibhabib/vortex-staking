@@ -1,0 +1,16 @@
+{
+  "name": "vortex-staking",
+  "license": "UNLICENSED",
+  "scripts": {
+    "codegen": "graph codegen",
+    "build": "graph build",
+    "deploy": "graph deploy --node https://api.thegraph.com/deploy/ shahzaibhabib/vortex-staking",
+    "create-local": "graph create --node http://localhost:8020/ shahzaibhabib/vortex-staking",
+    "remove-local": "graph remove --node http://localhost:8020/ shahzaibhabib/vortex-staking",
+    "deploy-local": "graph deploy --node http://localhost:8020/ --ipfs http://localhost:5001 shahzaibhabib/vortex-staking"
+  },
+  "dependencies": {
+    "@graphprotocol/graph-cli": "0.26.0",
+    "@graphprotocol/graph-ts": "0.24.1"
+  }
+}

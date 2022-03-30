@@ -1,0 +1,66 @@
+[
+  {
+    "anonymous": false,
+    "inputs": [
+      {
+        "indexed": true,
+        "internalType": "address",
+        "name": "creator",
+        "type": "address"
+      },
+      {
+        "indexed": false,
+        "internalType": "address",
+        "name": "portal",
+        "type": "address"
+      }
+    ],
+    "name": "PortalCreated",
+    "type": "event"
+  },
+  {
+    "inputs": [],
+    "name": "allPortalsLength",
+    "outputs": [{ "internalType": "uint256", "name": "", "type": "uint256" }],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      { "internalType": "uint256", "name": "_endBlock", "type": "uint256" },
+      {
+        "internalType": "address[]",
+        "name": "_rewardsToken",
+        "type": "address[]"
+      },
+      {
+        "internalType": "uint256[]",
+        "name": "_minimumRewardRate",
+        "type": "uint256[]"
+      },
+      { "internalType": "address", "name": "_stakingToken", "type": "address" },
+      { "internalType": "uint256", "name": "_stakeLimit", "type": "uint256" },
+      {
+        "internalType": "uint256",
+        "name": "_contractStakeLimit",
+        "type": "uint256"
+      },
+      {
+        "internalType": "uint256",
+        "name": "_distributionLimit",
+        "type": "uint256"
+      }
+    ],
+    "name": "createPortal",
+    "outputs": [],
+    "stateMutability": "nonpayable",
+    "type": "function"
+  },
+  {
+    "inputs": [{ "internalType": "uint256", "name": "", "type": "uint256" }],
+    "name": "portals",
+    "outputs": [{ "internalType": "address", "name": "", "type": "address" }],
+    "stateMutability": "view",
+    "type": "function"
+  }
+]
