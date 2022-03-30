@@ -21,6 +21,9 @@ export function handlePortalCreated(event: PortalCreated): void {
     portal.stakeLimit = ZERO_BI;
     portal.contractStakeLimit = ZERO_BI;
     portal.distributionLimit = ZERO_BI;
+    portal.depositAmounts = [];
+    portal.endDate = ZERO_BI;
+    portal.recipient = NULL_ETH_ADDRESS;
   }
 
   const portals = vortex.portals;

@@ -24,4 +24,10 @@ type Portal @entity {
   contractStakeLimit: BigInt!
   # minimum amount of tokens needed to be staked in order for the portal to start distributing rewards
   distributionLimit: BigInt!
+  # amount of reward tokens deposited
+  depositAmounts: [BigInt!]!
+  # deposit expiry date
+  endDate: BigInt!
+  # depositor address
+  recipient: String!
 }
