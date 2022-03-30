@@ -2,7 +2,7 @@ type Vortex @entity {
   # vortex contract address
   id: ID!
   # list of portal addresses
-  portals: [String!]
+  portals: [String!]!
 }
 
 type Portal @entity {
@@ -13,7 +13,7 @@ type Portal @entity {
   # last block upto which the portal reward gets distributed
   endBlock: BigInt!
   # token(s) being rewarded by the portal
-  rewardTokens: [String!]
+  rewardTokens: [String!]!
   # minimum amount of reward token distributed per block
   minimumRewardRate: BigInt!
   # token alloed to stake on this portal
