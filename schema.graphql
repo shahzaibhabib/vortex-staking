@@ -1,6 +1,13 @@
-type ExampleEntity @entity {
+type Vortex @entity {
+  # vortex contract address
   id: ID!
-  count: BigInt!
-  creator: Bytes! # address
-  portal: Bytes! # address
+  # list of portal addresses
+  portals: [String!]
+}
+
+type Portal @entity {
+  # portal address
+  id: ID!
+  # creator's address of the portal
+  creator: String!
 }
