@@ -16,7 +16,7 @@ export function handlePortalCreated(event: PortalCreated): void {
     portal.creator = event.params.creator.toHexString();
     portal.endBlock = ZERO_BI;
     portal.rewardTokens = [];
-    portal.minimumRewardRate = ZERO_BI;
+    portal.rewardRates = [];
     portal.stakingToken = NULL_ETH_ADDRESS;
     portal.stakeLimit = ZERO_BI;
     portal.contractStakeLimit = ZERO_BI;

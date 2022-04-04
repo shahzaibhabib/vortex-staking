@@ -14,8 +14,8 @@ type Portal @entity {
   endBlock: BigInt!
   # token(s) being rewarded by the portal
   rewardTokens: [String!]!
-  # minimum amount of reward token distributed per block
-  minimumRewardRate: BigInt!
+  # amount of reward token distributed per block
+  rewardRates: [BigInt!]!
   # token alloed to stake on this portal
   stakingToken: String!
   # staker can not stake more amount of tokens than this limit

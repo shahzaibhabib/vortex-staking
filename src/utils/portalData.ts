@@ -19,9 +19,10 @@ export function populatePortalData(portal: PortalEntity): PortalEntity {
     portal.rewardTokens = tokens;
   }
 
-  const minimumRewardRateResult = portalContract.try_minimumRewardRate(ZERO_BI);
-  if (!minimumRewardRateResult.reverted)
-    portal.minimumRewardRate = minimumRewardRateResult.value;
+  const minimumRewardRateResult = portalContract.try_getRewardRate();
+  if (!minimumRewardRateResult.reverted) {
+    portal.rewardRates = minimumRewardRateResult.value;
+  }
 
   const stakingTokenResult = portalContract.try_stakingToken();
   if (!stakingTokenResult.reverted)
