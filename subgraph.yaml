@@ -6,7 +6,7 @@ dataSources:
     name: Vortex
     network: rinkeby
     source:
-      address: "0xA795b7407E57d04c29b8474890Af38589Be1126d"
+      address: "0xb33a818d97166d818360679a572a4dc7882122fc"
       abi: Vortex
       startBlock: 10405337
     mapping:
