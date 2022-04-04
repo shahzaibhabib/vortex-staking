@@ -8,7 +8,7 @@ dataSources:
     source:
       address: "0xb33a818d97166d818360679a572a4dc7882122fc"
       abi: Vortex
-      startBlock: 10405337
+      startBlock: 10444721
     mapping:
       kind: ethereum/events
       apiVersion: 0.0.5
