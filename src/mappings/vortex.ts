@@ -1,5 +1,5 @@
 import { PortalCreated } from "../../generated/Vortex/Vortex";
-import { Vortex, Portal } from "../../generated/schema";
+import { Vortex, Portal, User } from "../../generated/schema";
 import { populatePortalData } from "../utils/portalData";
 import { NULL_ETH_ADDRESS, ZERO_BI } from "../utils/constants";
 
@@ -30,8 +30,19 @@ export function handlePortalCreated(event: PortalCreated): void {
   portals.push(portal.id);
   vortex.portals = portals;
 
+  let user = User.load(event.params.creator.toHexString());
+  if (!user) {
+    user = new User(event.params.creator.toHexString());
+    user.portals = [];
+  }
+
+  const userPortals = user.portals;
+  userPortals.push(portal.id);
+  user.portals = userPortals;
+
   portal = populatePortalData(portal);
 
+  user.save();
   portal.save();
   vortex.save();
 }
