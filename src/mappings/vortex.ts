@@ -13,7 +13,7 @@ export function handlePortalCreated(event: PortalCreated): void {
   let portal = Portal.load(event.params.portal.toHexString());
   if (!portal) {
     portal = new Portal(event.params.portal.toHexString());
-    portal.creator = event.params.creator.toHexString();
+    portal.owner = NULL_ETH_ADDRESS;
     portal.endBlock = ZERO_BI;
     portal.rewardTokens = [];
     portal.rewardRates = [];
@@ -26,21 +26,21 @@ export function handlePortalCreated(event: PortalCreated): void {
     portal.recipient = NULL_ETH_ADDRESS;
   }
 
+  portal = populatePortalData(portal);
+
   const portals = vortex.portals;
   portals.push(portal.id);
   vortex.portals = portals;
 
-  let user = User.load(event.params.creator.toHexString());
+  let user = User.load(portal.owner);
   if (!user) {
-    user = new User(event.params.creator.toHexString());
+    user = new User(portal.owner);
     user.portals = [];
   }
 
   const userPortals = user.portals;
   userPortals.push(portal.id);
   user.portals = userPortals;
-
-  portal = populatePortalData(portal);
 
   user.save();
   portal.save();

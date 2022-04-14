@@ -6,6 +6,9 @@ import { ZERO_BI } from "./constants";
 export function populatePortalData(portal: PortalEntity): PortalEntity {
   const portalContract = Portal.bind(Address.fromString(portal.id));
 
+  const ownerResult = portalContract.try_owner();
+  if (!ownerResult.reverted) portal.owner = ownerResult.value.toHexString();
+
   const endBlockResult = portalContract.try_endBlock();
   if (!endBlockResult.reverted) portal.endBlock = endBlockResult.value;
 

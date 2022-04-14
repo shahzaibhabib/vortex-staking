@@ -15,8 +15,8 @@ type Vortex @entity {
 type Portal @entity {
   # portal address
   id: ID!
-  # creator's address of the portal
-  creator: String!
+  # owner's address of the portal
+  owner: String!
   # last block upto which the portal reward gets distributed
   endBlock: BigInt!
   # token(s) being rewarded by the portal

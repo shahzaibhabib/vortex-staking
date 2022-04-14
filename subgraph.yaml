@@ -6,9 +6,9 @@ dataSources:
     name: Vortex
     network: rinkeby
     source:
-      address: "0xb33a818d97166d818360679a572a4dc7882122fc"
+      address: "0xf3EadE7741138bD4615c39b344Af0b5B6d2D3cFf"
       abi: Vortex
-      startBlock: 10444721
+      startBlock: 10502117
     mapping:
       kind: ethereum/events
       apiVersion: 0.0.5
@@ -21,7 +21,7 @@ dataSources:
         - name: Portal
           file: ./abis/Portal.json
       eventHandlers:
-        - event: PortalCreated(indexed address,address)
+        - event: PortalCreated(address)
           handler: handlePortalCreated
       file: ./src/mappings/vortex.ts
 templates:
@@ -41,5 +41,5 @@ templates:
         - name: Portal
           file: ./abis/Portal.json
       eventHandlers:
-        - event: Deposited(uint256[],uint256,address,address)
+        - event: Deposited(uint256[],uint256,address)
           handler: handleDeposited
