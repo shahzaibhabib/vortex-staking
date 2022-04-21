@@ -12,6 +12,17 @@ type Vortex @entity {
   portals: [String!]!
 }
 
+type Token @entity {
+  # token address
+  id: ID!
+  # name of the token
+  name: String!
+  # symbol of the token
+  symbol: String!
+  # number of decimals token supports
+  decimals: BigInt!
+}
+
 type Portal @entity {
   # portal address
   id: ID!
@@ -20,11 +31,11 @@ type Portal @entity {
   # last block upto which the portal reward gets distributed
   endBlock: BigInt!
   # token(s) being rewarded by the portal
-  rewardTokens: [String!]!
+  rewardTokens: [Token!]!
   # amount of reward token distributed per block
   rewardRates: [BigInt!]!
   # token alloed to stake on this portal
-  stakingToken: String!
+  stakingToken: Token!
   # staker can not stake more amount of tokens than this limit
   stakeLimit: BigInt!
   # total amount of tokens that can be staked on this portal across all stakers

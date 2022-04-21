@@ -2,6 +2,7 @@ import { Address } from "@graphprotocol/graph-ts";
 import { Portal } from "./../../generated/Vortex/Portal";
 import { Portal as PortalEntity } from "./../../generated/schema";
 import { ZERO_BI } from "./constants";
+import { populateTokenData } from "./token";
 
 export function populatePortalData(portal: PortalEntity): PortalEntity {
   const portalContract = Portal.bind(Address.fromString(portal.id));
@@ -17,7 +18,7 @@ export function populatePortalData(portal: PortalEntity): PortalEntity {
     let rewardTokens = rewardTokensResult.value;
     let tokens = portal.rewardTokens;
     for (let index = 0; index < rewardTokens.length; index++) {
-      tokens.push(rewardTokens[index].toHexString());
+      tokens.push(populateTokenData(rewardTokens[index]));
     }
     portal.rewardTokens = tokens;
   }
@@ -28,8 +29,9 @@ export function populatePortalData(portal: PortalEntity): PortalEntity {
   }
 
   const stakingTokenResult = portalContract.try_stakingToken();
-  if (!stakingTokenResult.reverted)
-    portal.stakingToken = stakingTokenResult.value.toHexString();
+  if (!stakingTokenResult.reverted) {
+    portal.stakingToken = populateTokenData(stakingTokenResult.value);
+  }
 
   const stakeLimitResult = portalContract.try_userStakeLimit();
   if (!stakeLimitResult.reverted) portal.stakeLimit = stakeLimitResult.value;
