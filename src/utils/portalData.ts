@@ -1,7 +1,6 @@
-import { Address } from "@graphprotocol/graph-ts";
+import { Address, BigInt } from "@graphprotocol/graph-ts";
 import { Portal } from "./../../generated/Vortex/Portal";
 import { Portal as PortalEntity } from "./../../generated/schema";
-import { ZERO_BI } from "./constants";
 import { populateTokenData } from "./token";
 
 export function populatePortalData(portal: PortalEntity): PortalEntity {
@@ -17,15 +16,19 @@ export function populatePortalData(portal: PortalEntity): PortalEntity {
   if (!rewardTokensResult.reverted) {
     let rewardTokens = rewardTokensResult.value;
     let tokens = portal.rewardTokens;
+    let rates = portal.rewardRates;
     for (let index = 0; index < rewardTokens.length; index++) {
       tokens.push(populateTokenData(rewardTokens[index]));
+
+      const minimumRewardRateResult = portalContract.try_minimumRewardRate(
+        BigInt.fromI32(index)
+      );
+      if (!minimumRewardRateResult.reverted) {
+        rates.push(minimumRewardRateResult.value);
+      }
     }
     portal.rewardTokens = tokens;
-  }
-
-  const minimumRewardRateResult = portalContract.try_getRewardRate();
-  if (!minimumRewardRateResult.reverted) {
-    portal.rewardRates = minimumRewardRateResult.value;
+    portal.rewardRates = rates;
   }
 
   const stakingTokenResult = portalContract.try_stakingToken();

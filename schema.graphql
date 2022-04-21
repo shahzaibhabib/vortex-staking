@@ -2,7 +2,7 @@ type User @entity {
   # user eth address
   id: ID!
   # list of portals created by the user
-  portals: [String!]!
+  portals: [Portal!]!
 }
 
 type Vortex @entity {
