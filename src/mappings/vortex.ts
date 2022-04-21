@@ -13,13 +13,14 @@ export function handlePortalCreated(event: PortalCreated): void {
   let portal = Portal.load(event.params.portal.toHexString());
   if (!portal) {
     portal = new Portal(event.params.portal.toHexString());
+    portal.name = "Placeholder Name";
     portal.owner = NULL_ETH_ADDRESS;
     portal.endBlock = ZERO_BI;
     portal.rewardTokens = [];
     portal.rewardRates = [];
     portal.stakingToken = NULL_ETH_ADDRESS;
-    portal.stakeLimit = ZERO_BI;
-    portal.contractStakeLimit = ZERO_BI;
+    portal.userStakeLimit = ZERO_BI;
+    portal.portalStakeLimit = ZERO_BI;
     portal.distributionLimit = ZERO_BI;
     portal.depositAmounts = [];
     portal.endDate = ZERO_BI;

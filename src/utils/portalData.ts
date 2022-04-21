@@ -34,11 +34,12 @@ export function populatePortalData(portal: PortalEntity): PortalEntity {
   }
 
   const stakeLimitResult = portalContract.try_userStakeLimit();
-  if (!stakeLimitResult.reverted) portal.stakeLimit = stakeLimitResult.value;
+  if (!stakeLimitResult.reverted)
+    portal.userStakeLimit = stakeLimitResult.value;
 
   const contractStakeLimitResult = portalContract.try_contractStakeLimit();
   if (!contractStakeLimitResult.reverted)
-    portal.contractStakeLimit = contractStakeLimitResult.value;
+    portal.portalStakeLimit = contractStakeLimitResult.value;
 
   const distributionLimitResult = portalContract.try_distributionLimit();
   if (!distributionLimitResult.reverted)

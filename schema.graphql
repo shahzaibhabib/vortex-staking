@@ -26,6 +26,8 @@ type Token @entity {
 type Portal @entity {
   # portal address
   id: ID!
+  # name of the portal
+  name: String!
   # owner's address of the portal
   owner: String!
   # last block upto which the portal reward gets distributed
@@ -37,11 +39,12 @@ type Portal @entity {
   # token alloed to stake on this portal
   stakingToken: Token!
   # staker can not stake more amount of tokens than this limit
-  stakeLimit: BigInt!
+  userStakeLimit: BigInt!
   # total amount of tokens that can be staked on this portal across all stakers
-  contractStakeLimit: BigInt!
+  portalStakeLimit: BigInt!
   # minimum amount of tokens needed to be staked in order for the portal to start distributing rewards
   distributionLimit: BigInt!
+
   # amount of reward tokens deposited
   depositAmounts: [BigInt!]!
   # deposit expiry date
