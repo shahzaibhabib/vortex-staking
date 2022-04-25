@@ -1,7 +1,8 @@
 import { Address, BigInt } from "@graphprotocol/graph-ts";
 import { Portal } from "./../../generated/Vortex/Portal";
-import { Portal as PortalEntity } from "./../../generated/schema";
+import { Portal as PortalEntity, Token } from "./../../generated/schema";
 import { populateTokenData } from "./token";
+import { convertTokenToDecimal } from "./helpers";
 
 export function populatePortalData(portal: PortalEntity): PortalEntity {
   const portalContract = Portal.bind(Address.fromString(portal.id));
@@ -17,6 +18,7 @@ export function populatePortalData(portal: PortalEntity): PortalEntity {
     let rewardTokens = rewardTokensResult.value;
     let tokens = portal.rewardTokens;
     let rates = portal.rewardRates;
+    let nameStr = "";
     for (let index = 0; index < rewardTokens.length; index++) {
       tokens.push(populateTokenData(rewardTokens[index]));
 
@@ -26,9 +28,16 @@ export function populatePortalData(portal: PortalEntity): PortalEntity {
       if (!minimumRewardRateResult.reverted) {
         rates.push(minimumRewardRateResult.value);
       }
+
+      // naming portal
+      let token = Token.load(rewardTokens[index].toHexString());
+      if (token) {
+        nameStr = nameStr + token.symbol + " ";
+      }
     }
     portal.rewardTokens = tokens;
     portal.rewardRates = rates;
+    portal.name = nameStr.trim();
   }
 
   const stakingTokenResult = portalContract.try_stakingToken();
@@ -47,6 +56,18 @@ export function populatePortalData(portal: PortalEntity): PortalEntity {
   const distributionLimitResult = portalContract.try_distributionLimit();
   if (!distributionLimitResult.reverted)
     portal.distributionLimit = distributionLimitResult.value;
+
+  // continue naming portal
+  const stakingToken = Token.load(portal.stakingToken);
+  if (stakingToken) {
+    portal.name =
+      convertTokenToDecimal(
+        portal.portalStakeLimit,
+        stakingToken.decimals
+      ).toString() +
+      " " +
+      portal.name;
+  }
 
   return portal;
 }
