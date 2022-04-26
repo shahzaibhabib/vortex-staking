@@ -51,4 +51,9 @@ type Portal @entity {
   endDate: BigInt!
   # depositor address
   recipient: String!
+
+  # timestamp at which portal is created
+  createdAt: BigInt!
+  # boolean indicating if the reward has also been deposited
+  rewardAdded: Boolean!
 }

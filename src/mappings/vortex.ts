@@ -25,6 +25,8 @@ export function handlePortalCreated(event: PortalCreated): void {
     portal.depositAmounts = [];
     portal.endDate = ZERO_BI;
     portal.recipient = NULL_ETH_ADDRESS;
+    portal.createdAt = event.block.timestamp;
+    portal.rewardAdded = false;
   }
 
   portal = populatePortalData(portal);
