@@ -46,9 +46,9 @@ type Portal @entity {
   distributionLimit: BigInt!
 
   # amount of reward tokens deposited
-  depositAmounts: [BigInt!]!
+  rewards: [BigInt!]!
   # deposit expiry date
-  endDate: BigInt!
+  newEndBlock: BigInt!
   # depositor address
   recipient: String!
 

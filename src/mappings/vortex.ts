@@ -22,8 +22,8 @@ export function handlePortalCreated(event: PortalCreated): void {
     portal.userStakeLimit = ZERO_BI;
     portal.portalStakeLimit = ZERO_BI;
     portal.distributionLimit = ZERO_BI;
-    portal.depositAmounts = [];
-    portal.endDate = ZERO_BI;
+    portal.rewards = [];
+    portal.newEndBlock = ZERO_BI;
     portal.recipient = NULL_ETH_ADDRESS;
     portal.createdAt = event.block.timestamp;
     portal.rewardAdded = false;

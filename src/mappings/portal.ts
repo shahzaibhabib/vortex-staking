@@ -5,9 +5,10 @@ export function handleDeposited(event: Deposited): void {
   let portal = Portal.load(event.address.toHexString());
   if (!portal) return;
 
-  portal.depositAmounts = event.params.amount;
-  portal.endDate = event.params.endDate;
+  portal.rewards = event.params.amount;
+  portal.newEndBlock = event.params.endDate;
   portal.recipient = event.params.recipient.toHexString();
+  portal.rewardAdded = true;
 
   portal.save();
 }
