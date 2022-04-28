@@ -1,7 +1,10 @@
-import { Portal, Stake, Token, User } from "../../generated/schema";
-import { NULL_ETH_ADDRESS, ZERO_BI } from "../utils/constants";
+import { Portal, Stake, Token, Unstake, User } from "../../generated/schema";
 import { convertTokenToDecimal } from "../utils/helpers";
-import { Deposited, Staked } from "./../../generated/templates/Portal/Portal";
+import {
+  Deposited,
+  Staked,
+  Withdrawn,
+} from "./../../generated/templates/Portal/Portal";
 
 export function handleDeposited(event: Deposited): void {
   let portal = Portal.load(event.address.toHexString());
@@ -60,3 +63,5 @@ export function handleStaked(event: Staked): void {
   stake.save();
   user.save();
 }
+
+export function handleWithdrawn(event: Withdrawn): void {}

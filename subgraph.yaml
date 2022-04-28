@@ -51,3 +51,5 @@ templates:
           handler: handleDeposited
         - event: Staked(address,address,uint256)
           handler: handleStaked
+        - event: Withdrawn(address,uint256)
+          handler: handleWithdrawn

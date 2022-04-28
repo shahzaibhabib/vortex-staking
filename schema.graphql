@@ -61,7 +61,7 @@ type Portal @entity {
 }
 
 type Stake @entity {
-  # stake
+  # stake id
   id: ID!
   # portal in which stake occur
   portal: Portal!
@@ -77,4 +77,19 @@ type Stake @entity {
   timestamp: BigInt!
   # boolean indicating if the stake is active or not
   active: Boolean!
+}
+
+type Unstake @entity {
+  # unstake id
+  id: ID!
+  # stake corresponding to unstake
+  stake: Stake!
+  # amount unstaked
+  amount: BigInt!
+  # name of unstake
+  name: String!
+  # recrecipient address
+  recipient: String!
+  # timestamp at which unstake occured
+  timestamp: BigInt!
 }
