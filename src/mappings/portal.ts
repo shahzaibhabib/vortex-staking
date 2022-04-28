@@ -43,6 +43,7 @@ export function handleStaked(event: Staked): void {
       " - " +
       portal.name;
     stake.timestamp = event.block.timestamp;
+    stake.active = true;
   }
 
   let user = User.load(event.params.staker.toHexString());

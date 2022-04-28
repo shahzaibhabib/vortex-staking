@@ -75,4 +75,6 @@ type Stake @entity {
   name: String!
   # timestamp at which stake occured
   timestamp: BigInt!
+  # boolean indicating if the stake is active or not
+  active: Boolean!
 }
