@@ -1,6 +1,7 @@
 import { PortalCreated } from "../../generated/Vortex/Vortex";
 import { Vortex, Portal, User } from "../../generated/schema";
 import { populatePortalData } from "../utils/portalData";
+import { Portal as PortalTemplate } from "./../../generated/templates";
 import { NULL_ETH_ADDRESS, ZERO_BI } from "../utils/constants";
 
 export function handlePortalCreated(event: PortalCreated): void {
@@ -48,4 +49,6 @@ export function handlePortalCreated(event: PortalCreated): void {
   user.save();
   portal.save();
   vortex.save();
+
+  PortalTemplate.create(event.params.portal);
 }
