@@ -49,3 +49,5 @@ templates:
       eventHandlers:
         - event: Deposited(uint256[],uint256,address)
           handler: handleDeposited
+        - event: Staked(address,address,uint256)
+          handler: handleStaked

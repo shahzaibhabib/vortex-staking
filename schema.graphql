@@ -3,6 +3,8 @@ type User @entity {
   id: ID!
   # list of portals created by the user
   portals: [Portal!]!
+  # list of stakes created by the user
+  stakes: [Stake!]!
 }
 
 type Vortex @entity {
@@ -56,4 +58,21 @@ type Portal @entity {
   createdAt: BigInt!
   # boolean indicating if the reward has also been deposited
   rewardAdded: Boolean!
+}
+
+type Stake @entity {
+  # stake
+  id: ID!
+  # portal in which stake occur
+  portal: Portal!
+  # staker address
+  staker: String!
+  # recrecipient address
+  recipient: String!
+  # amount of token staked
+  amount: BigInt!
+  # name of the stake
+  name: String!
+  # timestamp at which stake occured
+  timestamp: BigInt!
 }

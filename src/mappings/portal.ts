@@ -1,5 +1,7 @@
-import { Portal } from "../../generated/schema";
-import { Deposited } from "./../../generated/templates/Portal/Portal";
+import { Portal, Stake, Token, User } from "../../generated/schema";
+import { NULL_ETH_ADDRESS, ZERO_BI } from "../utils/constants";
+import { convertTokenToDecimal } from "../utils/helpers";
+import { Deposited, Staked } from "./../../generated/templates/Portal/Portal";
 
 export function handleDeposited(event: Deposited): void {
   let portal = Portal.load(event.address.toHexString());
@@ -13,11 +15,47 @@ export function handleDeposited(event: Deposited): void {
   portal.save();
 }
 
-// event Deposited(
-//   uint256[] amount,
-//   uint256 endDate,
-//   address recipient,
-//   address portal
-// );
+export function handleStaked(event: Staked): void {
+  let stake = Stake.load(
+    event.params.staker.toHexString() + "-" + event.address.toHexString()
+  );
 
-// emit Deposited(rewards, newEndBlock, msg.sender, address(this));
+  if (!stake) {
+    stake = new Stake(
+      event.params.staker.toHexString() + "-" + event.address.toHexString()
+    );
+
+    let portal = Portal.load(event.address.toHexString());
+    if (!portal) return;
+
+    let stakingToken = Token.load(portal.stakingToken);
+    if (!stakingToken) return;
+
+    stake.portal = portal.id;
+    stake.staker = event.params.staker.toHexString();
+    stake.recipient = event.params.recipient.toHexString();
+    stake.amount = event.params.amount;
+    stake.name =
+      convertTokenToDecimal(
+        event.params.amount,
+        stakingToken.decimals
+      ).toString() +
+      " - " +
+      portal.name;
+    stake.timestamp = event.block.timestamp;
+  }
+
+  let user = User.load(event.params.staker.toHexString());
+  if (!user) {
+    user = new User(event.params.staker.toHexString());
+    user.portals = [];
+    user.stakes = [];
+  }
+
+  let userStakes = user.stakes;
+  userStakes.push(stake.id);
+  user.stakes = userStakes;
+
+  stake.save();
+  user.save();
+}
