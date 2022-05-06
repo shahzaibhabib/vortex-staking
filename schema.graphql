@@ -10,7 +10,7 @@ type User @entity {
 type Vortex @entity {
   # vortex contract address
   id: ID!
-  # list of portal addresses
+  # list of portals created
   portals: [String!]!
 }
 
@@ -26,19 +26,18 @@ type Token @entity {
 }
 
 type Portal @entity {
+  # FIELDS SET ON CREATION
   # portal address
   id: ID!
   # name of the portal
   name: String!
-  # owner's address of the portal
-  owner: String!
   # last block upto which the portal reward gets distributed
   endBlock: BigInt!
   # token(s) being rewarded by the portal
   rewardTokens: [Token!]!
   # amount of reward token distributed per block
-  rewardRates: [BigInt!]!
-  # token alloed to stake on this portal
+  minimumRewardRates: [BigInt!]!
+  # token allowed to stake on this portal
   stakingToken: Token!
   # staker can not stake more amount of tokens than this limit
   userStakeLimit: BigInt!
@@ -46,17 +45,19 @@ type Portal @entity {
   portalStakeLimit: BigInt!
   # minimum amount of tokens needed to be staked in order for the portal to start distributing rewards
   distributionLimit: BigInt!
+  # owner's address of the portal
+  owner: String!
+  # timestamp at which portal is created
+  createdAtTimestamp: BigInt!
 
+  # FIELDS SET ON DEPOSIT
   # amount of reward tokens deposited
   rewards: [BigInt!]!
-  # deposit expiry date
+  # Updated end block upto which the portal reward gets distributed
   newEndBlock: BigInt!
   # depositor address
   recipient: String!
-
-  # timestamp at which portal is created
-  createdAt: BigInt!
-  # boolean indicating if the reward has also been deposited
+  # boolean indicating if the reward has also been deposited after the portal is created
   rewardAdded: Boolean!
 }
 

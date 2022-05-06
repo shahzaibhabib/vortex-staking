@@ -59,7 +59,8 @@ function fetchTokenDecimals(tokenAddress: Address): BigInt {
   return BigInt.fromI32(decimals);
 }
 
-export function populateTokenData(tokenAddress: Address): string {
+// Middleware function that takes in a Token type variable and populates it's fields
+export function populateTokenData(tokenAddress: Address): Token {
   let token = Token.load(tokenAddress.toHexString());
   if (!token) {
     token = new Token(tokenAddress.toHexString());
@@ -68,5 +69,5 @@ export function populateTokenData(tokenAddress: Address): string {
     token.decimals = fetchTokenDecimals(tokenAddress);
     token.save();
   }
-  return token.id;
+  return token;
 }

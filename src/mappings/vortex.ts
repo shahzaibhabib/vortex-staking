@@ -15,40 +15,47 @@ export function handlePortalCreated(event: PortalCreated): void {
   if (!portal) {
     portal = new Portal(event.params.portal.toHexString());
     portal.name = "Placeholder Name";
-    portal.owner = NULL_ETH_ADDRESS;
     portal.endBlock = ZERO_BI;
     portal.rewardTokens = [];
-    portal.rewardRates = [];
+    portal.minimumRewardRates = [];
     portal.stakingToken = NULL_ETH_ADDRESS;
     portal.userStakeLimit = ZERO_BI;
     portal.portalStakeLimit = ZERO_BI;
     portal.distributionLimit = ZERO_BI;
+    portal.owner = NULL_ETH_ADDRESS;
+    portal.createdAtTimestamp = event.block.timestamp;
     portal.rewards = [];
     portal.newEndBlock = ZERO_BI;
     portal.recipient = NULL_ETH_ADDRESS;
-    portal.createdAt = event.block.timestamp;
     portal.rewardAdded = false;
   }
 
+  // fetching portal details
   portal = populatePortalData(portal);
 
+  // adds current portal in the vortex's portal list
   const portals = vortex.portals;
   portals.push(portal.id);
   vortex.portals = portals;
 
+  // checks if the user exist
   let user = User.load(portal.owner);
   if (!user) {
     user = new User(portal.owner);
     user.portals = [];
+    user.stakes = [];
   }
 
+  // adds current portal in the user's portal list
   const userPortals = user.portals;
   userPortals.push(portal.id);
   user.portals = userPortals;
 
-  user.save();
+  // saves in the DB
   portal.save();
+  user.save();
   vortex.save();
 
+  // creates data template of the current portal
   PortalTemplate.create(event.params.portal);
 }
