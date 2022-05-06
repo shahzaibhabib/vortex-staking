@@ -64,15 +64,15 @@ type Portal @entity {
 type Stake @entity {
   # stake id
   id: ID!
-  # portal in which stake occur
+  # portal in which stake occurs
   portal: Portal!
   # staker address
   staker: String!
-  # recrecipient address
-  recipient: String!
-  # amount of token staked
-  amount: BigInt!
   # name of the stake
+  recipient: String!
+  # recipient address
+  amount: BigInt!
+  # amount of token staked
   name: String!
   # timestamp at which stake occured
   timestamp: BigInt!
@@ -89,7 +89,7 @@ type Unstake @entity {
   amount: BigInt!
   # name of unstake
   name: String!
-  # recrecipient address
+  # recipient address
   recipient: String!
   # timestamp at which unstake occured
   timestamp: BigInt!
