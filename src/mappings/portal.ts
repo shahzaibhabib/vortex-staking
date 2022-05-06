@@ -18,21 +18,17 @@ export function handleDeposited(event: Deposited): void {
   portal.save();
 }
 
+// staker/portal/blockNumber/txIndex
 export function handleStaked(event: Staked): void {
-  let stake = Stake.load(
-    event.params.staker.toHexString() + "-" + event.address.toHexString()
-  );
+  let portal = Portal.load(event.address.toHexString());
+  if (!portal) return;
 
+  let stakingToken = Token.load(portal.stakingToken);
+  if (!stakingToken) return;
+
+  let stake = Stake.load(event.transaction.hash.toHexString());
   if (!stake) {
-    stake = new Stake(
-      event.params.staker.toHexString() + "-" + event.address.toHexString()
-    );
-
-    let portal = Portal.load(event.address.toHexString());
-    if (!portal) return;
-
-    let stakingToken = Token.load(portal.stakingToken);
-    if (!stakingToken) return;
+    stake = new Stake(event.transaction.hash.toHexString());
 
     stake.portal = portal.id;
     stake.staker = event.params.staker.toHexString();
@@ -54,6 +50,7 @@ export function handleStaked(event: Staked): void {
     user = new User(event.params.staker.toHexString());
     user.portals = [];
     user.stakes = [];
+    user.unstakes = [];
   }
 
   let userStakes = user.stakes;
@@ -64,4 +61,34 @@ export function handleStaked(event: Staked): void {
   user.save();
 }
 
-export function handleWithdrawn(event: Withdrawn): void {}
+export function handleWithdrawn(event: Withdrawn): void {
+  let portal = Portal.load(event.address.toHexString());
+  if (!portal) return;
+
+  let stakingToken = Token.load(portal.stakingToken);
+  if (!stakingToken) return;
+
+  let unstake = new Unstake(event.transaction.hash.toHexString());
+  unstake.portal = portal.id;
+  unstake.unstaker = event.params.recipient.toHexString();
+  unstake.recipient = event.params.recipient.toHexString();
+  unstake.amount = event.params.amount;
+  unstake.name =
+    convertTokenToDecimal(
+      event.params.amount,
+      stakingToken.decimals
+    ).toString() +
+    "-" +
+    portal.name;
+  unstake.timestamp = event.block.timestamp;
+
+  let user = User.load(event.params.recipient.toHexString());
+  if (!user) return;
+
+  let userUnstakes = user.unstakes;
+  userUnstakes.push(unstake.id);
+  user.unstakes = userUnstakes;
+
+  unstake.save();
+  user.save();
+}

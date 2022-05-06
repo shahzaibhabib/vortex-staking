@@ -5,6 +5,8 @@ type User @entity {
   portals: [Portal!]!
   # list of stakes created by the user
   stakes: [Stake!]!
+  # list of unstakes created by the user
+  unstakes: [Unstake!]!
 }
 
 type Vortex @entity {
@@ -83,14 +85,20 @@ type Stake @entity {
 type Unstake @entity {
   # unstake id
   id: ID!
+  # portal in which unstake occurs
+  portal: Portal!
+
   # stake corresponding to unstake
-  stake: Stake!
+  # stake: Stake!
+
+  # unstaker address
+  unstaker: String!
+  # recipient address
+  recipient: String!
   # amount unstaked
   amount: BigInt!
   # name of unstake
   name: String!
-  # recipient address
-  recipient: String!
   # timestamp at which unstake occured
   timestamp: BigInt!
 }
