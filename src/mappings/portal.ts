@@ -14,6 +14,7 @@ export function handleDeposited(event: Deposited): void {
   portal.newEndBlock = event.params.endDate;
   portal.recipient = event.params.recipient.toHexString();
   portal.rewardAdded = true;
+  portal.depositTxHash = event.transaction.hash.toHexString();
 
   portal.save();
 }

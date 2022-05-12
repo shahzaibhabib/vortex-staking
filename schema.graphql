@@ -36,7 +36,7 @@ type Portal @entity {
   # last block upto which the portal reward gets distributed
   endBlock: BigInt!
   # token(s) being rewarded by the portal
-  rewardTokens: [Token!]!
+  rewardTokens: [String!]!
   # amount of reward token distributed per block
   minimumRewardRates: [BigInt!]!
   # token allowed to stake on this portal
@@ -51,6 +51,8 @@ type Portal @entity {
   owner: String!
   # timestamp at which portal is created
   createdAtTimestamp: BigInt!
+  # creation transaction hash
+  createTxHash: String!
 
   # FIELDS SET ON DEPOSIT
   # amount of reward tokens deposited
@@ -61,6 +63,8 @@ type Portal @entity {
   recipient: String!
   # boolean indicating if the reward has also been deposited after the portal is created
   rewardAdded: Boolean!
+  # deposit transaction hash
+  depositTxHash: String!
 }
 
 type Stake @entity {

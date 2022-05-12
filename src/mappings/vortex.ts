@@ -1,6 +1,11 @@
 import { PortalCreated } from "../../generated/Vortex/Vortex";
 import { Vortex, Portal, User } from "../../generated/schema";
-import { populatePortalData } from "../utils/portalData";
+import {
+  fetchAndSaveRewardTokens,
+  populateMinimumRewardRates,
+  populatePortalData,
+  populateRewardTokens,
+} from "../utils/portalData";
 import { Portal as PortalTemplate } from "./../../generated/templates";
 import { NULL_ETH_ADDRESS, ZERO_BI } from "../utils/constants";
 
@@ -24,10 +29,12 @@ export function handlePortalCreated(event: PortalCreated): void {
     portal.distributionLimit = ZERO_BI;
     portal.owner = NULL_ETH_ADDRESS;
     portal.createdAtTimestamp = event.block.timestamp;
+    portal.createTxHash = event.transaction.hash.toHexString();
     portal.rewards = [];
     portal.newEndBlock = ZERO_BI;
     portal.recipient = NULL_ETH_ADDRESS;
     portal.rewardAdded = false;
+    portal.depositTxHash = NULL_ETH_ADDRESS;
   }
 
   // fetching portal details

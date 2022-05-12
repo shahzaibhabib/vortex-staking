@@ -6,9 +6,9 @@ dataSources:
     name: Vortex
     network: rinkeby
     source:
-      address: "0x3278Bc6872429a2878bacFFE339E93C98c962D0F"
+      address: "0xDeA45F594c021E9197196AA80D827b3C92538aF8"
       abi: Vortex
-      startBlock: 10640580
+      startBlock: 10652448
     mapping:
       kind: ethereum/events
       apiVersion: 0.0.5
