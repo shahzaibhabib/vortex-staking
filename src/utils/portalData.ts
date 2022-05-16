@@ -5,7 +5,10 @@ import { populateTokenData } from "./token";
 import { convertTokenToDecimal } from "./helpers";
 
 // Middleware function that takes in a Portal type variable and populates it's fields
-export function populatePortalData(portal: PortalEntity): PortalEntity {
+export function populatePortalData(
+  portal: PortalEntity,
+  portalCount: BigInt
+): PortalEntity {
   const portalContract = Portal.bind(Address.fromString(portal.id));
 
   const one_rewardTokensResult = portalContract.try_getRewardTokens();
@@ -41,7 +44,7 @@ export function populatePortalData(portal: PortalEntity): PortalEntity {
     if (!rewardsTokenResult.reverted) {
       let token = Token.load(rewardsTokenResult.value.toHexString());
       if (token) {
-        nameStr = nameStr + token.symbol + " ";
+        if (index < 3) nameStr = nameStr + token.symbol + " ";
         log.debug("REWARD_TOKENS ==> {} ==> {} ==> {} ==> {} ==> {}", [
           portal.id,
           index.toString(),
@@ -87,7 +90,7 @@ export function populatePortalData(portal: PortalEntity): PortalEntity {
 
   portal.rewardTokens = rewardTokens;
   portal.minimumRewardRates = minimumRewardRates;
-  portal.name = nameStr.trim();
+  portal.name = "#" + portalCount.toString() + " " + nameStr.trim();
 
   const stakingTokenResult = portalContract.try_stakingToken();
   if (!stakingTokenResult.reverted) {
@@ -105,18 +108,6 @@ export function populatePortalData(portal: PortalEntity): PortalEntity {
   const distributionLimitResult = portalContract.try_distributionLimit();
   if (!distributionLimitResult.reverted)
     portal.distributionLimit = distributionLimitResult.value;
-
-  // continue naming portal, step 2
-  const stakingToken = Token.load(portal.stakingToken);
-  if (stakingToken) {
-    portal.name =
-      convertTokenToDecimal(
-        portal.portalStakeLimit,
-        stakingToken.decimals
-      ).toString() +
-      " " +
-      portal.name;
-  }
 
   return portal;
 }

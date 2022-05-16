@@ -4,11 +4,11 @@ schema:
 dataSources:
   - kind: ethereum
     name: Vortex
-    network: rinkeby
+    network: ropsten
     source:
-      address: "0xDeA45F594c021E9197196AA80D827b3C92538aF8"
+      address: "0x7833Ab5E1DC9ff1c172AE7CA55e4e116BaFb90E8"
       abi: Vortex
-      startBlock: 10652448
+      startBlock: 12269463
     mapping:
       kind: ethereum/events
       apiVersion: 0.0.5
@@ -33,7 +33,7 @@ dataSources:
 templates:
   - kind: ethereum/contract
     name: Portal
-    network: rinkeby
+    network: ropsten
     source:
       abi: Portal
     mapping:
@@ -46,6 +46,12 @@ templates:
       abis:
         - name: Portal
           file: ./abis/Portal.json
+        - name: ERC20
+          file: ./abis/ERC20.json
+        - name: ERC20NameBytes
+          file: ./abis/ERC20NameBytes.json
+        - name: ERC20SymbolBytes
+          file: ./abis/ERC20SymbolBytes.json
       eventHandlers:
         - event: Deposited(uint256[],uint256,address)
           handler: handleDeposited
@@ -53,3 +59,6 @@ templates:
           handler: handleStaked
         - event: Withdrawn(address,uint256)
           handler: handleWithdrawn
+      callHandlers:
+        - function: addRewardTokens(address[],uint256[])
+          handler: handleAddRewardTokens

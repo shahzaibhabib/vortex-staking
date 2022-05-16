@@ -7,13 +7,14 @@ import {
   populateRewardTokens,
 } from "../utils/portalData";
 import { Portal as PortalTemplate } from "./../../generated/templates";
-import { NULL_ETH_ADDRESS, ZERO_BI } from "../utils/constants";
+import { NULL_ETH_ADDRESS, ONE_BI, ZERO_BI } from "../utils/constants";
 
 export function handlePortalCreated(event: PortalCreated): void {
   let vortex = Vortex.load(event.address.toHexString());
   if (!vortex) {
     vortex = new Vortex(event.address.toHexString());
     vortex.portals = [];
+    vortex.length = ZERO_BI;
   }
 
   let portal = Portal.load(event.params.portal.toHexString());
@@ -37,8 +38,11 @@ export function handlePortalCreated(event: PortalCreated): void {
     portal.depositTxHash = NULL_ETH_ADDRESS;
   }
 
+  // update total number of portals created
+  vortex.length = vortex.length.plus(ONE_BI);
+
   // fetching portal details
-  portal = populatePortalData(portal);
+  portal = populatePortalData(portal, vortex.length);
 
   // adds current portal in the vortex's portal list
   const portals = vortex.portals;
