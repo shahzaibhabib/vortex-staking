@@ -49,6 +49,9 @@ export function handleAddRewardTokens(call: AddRewardTokensCall): void {
   portal.rewardTokens = prevRewardTokens;
   portal.minimumRewardRates = prevMinimumRewardRates;
 
+  // setting it to false so that portal can be flagged and needs the rewards to be added
+  portal.rewardAdded = false;
+
   portal.save();
 }
 
