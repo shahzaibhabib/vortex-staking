@@ -112,6 +112,24 @@ export function populatePortalData(
   return portal;
 }
 
+export function getTotalRewards(portal: PortalEntity): BigInt[] {
+  const portalContract = Portal.bind(Address.fromString(portal.id));
+
+  const length = portal.rewardTokens.length;
+  const totalRewards: BigInt[] = [];
+
+  for (let index = 0; index < length; index++) {
+    const rewardTokensResult = portalContract.try_totalRewards(
+      BigInt.fromI32(index)
+    );
+    if (!rewardTokensResult.reverted) {
+      totalRewards[index] = rewardTokensResult.value;
+    }
+  }
+
+  return totalRewards;
+}
+
 export function fetchAndSaveRewardTokens(portal: PortalEntity): number {
   const portalContract = Portal.bind(Address.fromString(portal.id));
 

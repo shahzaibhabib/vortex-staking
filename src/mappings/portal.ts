@@ -1,6 +1,7 @@
 import { log } from "@graphprotocol/graph-ts";
 import { Portal, Stake, Token, Unstake, User } from "../../generated/schema";
 import { convertTokenToDecimal } from "../utils/helpers";
+import { getTotalRewards } from "../utils/portalData";
 import { populateTokenData } from "../utils/token";
 import {
   Deposited,
@@ -59,7 +60,7 @@ export function handleDeposited(event: Deposited): void {
   let portal = Portal.load(event.address.toHexString());
   if (!portal) return;
 
-  portal.rewards = event.params.amount;
+  portal.rewards = getTotalRewards(portal);
   portal.newEndBlock = event.params.endDate;
   portal.endBlock = event.params.endDate;
   portal.recipient = event.params.recipient.toHexString();
