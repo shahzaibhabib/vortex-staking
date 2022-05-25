@@ -84,6 +84,8 @@ type Stake @entity {
   name: String!
   # timestamp at which stake occured
   timestamp: BigInt!
+  # stake transaction hash
+  txHash: String!
   # boolean indicating if the stake is active or not
   active: Boolean!
 }
@@ -103,8 +105,12 @@ type Unstake @entity {
   recipient: String!
   # amount unstaked
   amount: BigInt!
+  # reward tokens earned
+  rewards: [BigInt!]!
   # name of unstake
   name: String!
   # timestamp at which unstake occured
   timestamp: BigInt!
+  # unstake transaction hash
+  txHash: String!
 }

@@ -1,7 +1,7 @@
 import { log } from "@graphprotocol/graph-ts";
 import { Portal, Stake, Token, Unstake, User } from "../../generated/schema";
 import { convertTokenToDecimal } from "../utils/helpers";
-import { getTotalRewards } from "../utils/portalData";
+import { getTotalRewards, getUserRewards } from "../utils/portalData";
 import { populateTokenData } from "../utils/token";
 import {
   Deposited,
@@ -99,7 +99,9 @@ export function handleStaked(event: Staked): void {
         event.params.amount,
         stakingToken.decimals
       ).toString() +
-      " - " +
+      " " +
+      stakingToken.symbol +
+      " / " +
       portal.name;
     stake.timestamp = event.block.timestamp;
     stake.active = true;
@@ -114,7 +116,9 @@ export function handleStaked(event: Staked): void {
         event.params.amount,
         stakingToken.decimals
       ).toString() +
-      " - " +
+      " " +
+      stakingToken.symbol +
+      " / " +
       portal.name;
     stake.timestamp = event.block.timestamp;
     stake.active = true;
@@ -122,9 +126,12 @@ export function handleStaked(event: Staked): void {
     stake.amount = stake.amount.plus(event.params.amount);
     stake.name =
       convertTokenToDecimal(stake.amount, stakingToken.decimals).toString() +
-      " - " +
+      " " +
+      stakingToken.symbol +
+      " / " +
       portal.name;
   }
+  stake.txHash = event.transaction.hash.toHexString();
 
   stake.save();
   user.save();
@@ -150,14 +157,18 @@ export function handleWithdrawn(event: Withdrawn): void {
   unstake.unstaker = event.params.recipient.toHexString();
   unstake.recipient = event.params.recipient.toHexString();
   unstake.amount = event.params.amount;
+  unstake.rewards = getUserRewards(portal, user.id);
   unstake.name =
     convertTokenToDecimal(
       event.params.amount,
       stakingToken.decimals
     ).toString() +
-    " - " +
+    " " +
+    stakingToken.symbol +
+    " / " +
     portal.name;
   unstake.timestamp = event.block.timestamp;
+  unstake.txHash = event.transaction.hash.toHexString();
 
   let userUnstakes = user.unstakes;
   userUnstakes.push(unstake.id);

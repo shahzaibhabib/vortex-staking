@@ -130,6 +130,28 @@ export function getTotalRewards(portal: PortalEntity): BigInt[] {
   return totalRewards;
 }
 
+export function getUserRewards(
+  portal: PortalEntity,
+  account: string
+): BigInt[] {
+  const portalContract = Portal.bind(Address.fromString(portal.id));
+
+  const length = portal.rewardTokens.length;
+  const userRewards: BigInt[] = [];
+
+  for (let index = 0; index < length; index++) {
+    const userRewardsResult = portalContract.try_earned(
+      Address.fromString(account),
+      BigInt.fromI32(index)
+    );
+    if (!userRewardsResult.reverted) {
+      userRewards[index] = userRewardsResult.value;
+    }
+  }
+
+  return userRewards;
+}
+
 export function fetchAndSaveRewardTokens(portal: PortalEntity): number {
   const portalContract = Portal.bind(Address.fromString(portal.id));
 

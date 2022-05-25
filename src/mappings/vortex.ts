@@ -35,7 +35,7 @@ export function handlePortalCreated(event: PortalCreated): void {
     portal.newEndBlock = ZERO_BI;
     portal.recipient = NULL_ETH_ADDRESS;
     portal.rewardAdded = false;
-    portal.depositTxHash = NULL_ETH_ADDRESS;
+    portal.depositTxHash = event.transaction.hash.toHexString();
   }
 
   // update total number of portals created
