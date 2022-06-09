@@ -6,9 +6,9 @@ dataSources:
     name: Vortex
     network: ropsten
     source:
-      address: "0x802350a01419b87e1a42fced3e4692464c87c877"
+      address: "0x1f0F483c7D4F6e93F912f9ec04526C69CE955Dc2"
       abi: Vortex
-      startBlock: 12279186
+      startBlock: 12354607
     mapping:
       kind: ethereum/events
       apiVersion: 0.0.5
